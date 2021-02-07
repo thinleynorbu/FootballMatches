@@ -46,7 +46,7 @@ const Sidebar = () => {
                 <Menu.Item icon={<TeamOutlined />} key="report">
                     <Link to={"/report"}>Report</Link>
                 </Menu.Item>
-                <Menu.Item icon={<LockOutlined />} onClick={() => console.log("aklsdjfl")} key="league">
+                <Menu.Item icon={<LockOutlined />} key="league">
                     <Link to={"/league"}>League</Link>
                 </Menu.Item>
             </Menu>

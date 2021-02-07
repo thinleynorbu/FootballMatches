@@ -1,10 +1,13 @@
-import React, { EventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createUseStyles } from "react-jss";
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from '../../atoms/Button';
 import { DatePickerComponent } from '../../atoms/Datepicker';
 import { TextField } from '../../atoms/Input';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { API } from '../../../api';
+import { Alert } from '../../atoms/Alert';
+import moment, { Moment } from 'moment';
 
 let useStyles = createUseStyles((theme: any) => {
     return {
@@ -26,7 +29,8 @@ let useStyles = createUseStyles((theme: any) => {
         },
         row: {
             display: 'flex',
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            marginBottom: 25
         },
         submit: {
             marginTop: 15,
@@ -45,32 +49,106 @@ let useStyles = createUseStyles((theme: any) => {
     };
 });
 
+interface formValue {
+    homeTeam: string;
+    awayTeam: string
+    homeScore: string
+    awayScore: string
+    date: Moment | null
+}
+
 const MatchForm = () => {
     const classes = useStyles();
     const params = useParams();
     const history = useHistory()
     const { id }: any = useParams();
-    const [formValue, setFormValue] = useState({});
+    const [formValue, setFormValue] = useState({
+        homeTeam: "",
+        awayTeam: "",
+        homeScore: "",
+        awayScore: "",
+        date: null
+    } as formValue);
+    const [formError, setFormError] = useState({
+        homeTeam: "",
+        awayTeam: "",
+        homeScore: "",
+        awayScore: "",
+        date: ""
+    });
+
+    const fetchMatch = async () => {
+        try {
+            const res = await API.get(`match/${id}`);
+            const data = res.data;
+            setFormValue({
+                homeTeam: data.homeTeam,
+                awayTeam: data.awayTeam,
+                homeScore: data.homeScore,
+                awayScore: data.awayScore,
+                date: data.date
+            })
+        } catch (err) {
+            Alert(err.response.statusText,"error")
+            history.push("/")
+        }
+    }
 
     useEffect(() => {
         if (id) {
-
+            fetchMatch()
         }
-    }, [])
+    }, [id])
 
     const handleChange = (data: any, date?: any) => {
         if (date) {
             setFormValue({ ...formValue, [data]: date })
             return;
         }
-        setFormValue({ ...formValue, [data.target.name]: data.target.value })
+        if (data !== 'date') {
+            setFormValue({ ...formValue, [data.target.name]: data.target.value })
+        }
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        
+    const validate = () => {
+        const errors: any = {};
+        let toContinue = true;
+        const arr = Object.entries(formValue)
+        Object.entries(formValue).map(item => {
+            if (item[1] === "" || !item[1]) {
+                const name = item[0]
+                errors[name] = "Required"
+                toContinue = false
+            }
+            if ((item[0] === "homeScore" || item[0] === "awayScore") && (item[1] < 0 || item[1] < 0)) {
+                const name = item[0]
+                errors[name] = "Enter value greater than zero"
+                toContinue = false
+            }
+        })
+        setFormError({ ...errors })
+        return toContinue;
     }
-    console.log(formValue, "als;kdfj")
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault();
+            const isValid = validate();
+            if (isValid) {
+                if (id) {
+                    await API.put(`/match/${id}`, formValue)
+                    Alert("Match Edited", "success")
+                } else {
+                    await API.post('/match', formValue)
+                    Alert("Match added", "success")
+                }
+                history.push('/')
+            }
+        } catch (err) {
+            Alert("Error occured", "error")
+        }
+    }
+
     return (
         <div className={classes.container}>
             <div className={classes.backButton}>
@@ -89,6 +167,8 @@ const MatchForm = () => {
                             placeholder={"Home Team"}
                             label={"Home Team"}
                             type="text"
+                            editValue={formValue.homeTeam}
+                            error={formError.homeTeam}
                         />
                         <TextField
                             wrapperClass={classes.input}
@@ -97,6 +177,8 @@ const MatchForm = () => {
                             placeholder={"Score"}
                             onChange={handleChange}
                             type="number"
+                            editValue={formValue.homeScore}
+                            error={formError.homeScore}
                             positive
                         />
                     </div>
@@ -107,6 +189,8 @@ const MatchForm = () => {
                             name={"awayTeam"}
                             placeholder={"Away Team"}
                             onChange={handleChange}
+                            editValue={formValue.awayTeam}
+                            error={formError.awayTeam}
                             type="text"
                         />
                         <TextField
@@ -115,6 +199,8 @@ const MatchForm = () => {
                             name={"awayScore"}
                             placeholder={"Score"}
                             type="number"
+                            editValue={formValue.awayScore}
+                            error={formError.awayScore}
                             onChange={handleChange}
                             positive
                         />
@@ -122,8 +208,11 @@ const MatchForm = () => {
                     <DatePickerComponent
                         label={"Match Date"}
                         name={"date"}
-                        onClear={() => console.log("clear")}
+                        clear={false}
+                        initialValue={formValue.date ? moment(formValue.date) : undefined}
+                        onClear={() => setFormValue({ ...formValue, date: null })}
                         onChange={handleChange}
+                        error={formError.date}
                     />
                     <Button
                         htmlType={"submit"}

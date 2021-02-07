@@ -77,7 +77,7 @@ const TextField: React.FC<Props> = props => {
         const { value } = event.currentTarget;
 
         if (props.positive && parseInt(value) <= 0) {
-            setTextError("Enter non zero value");
+            setTextError("Enter value greater than zero");
             setTimeout(() => {
                 setTextError("");
             }, 3000);

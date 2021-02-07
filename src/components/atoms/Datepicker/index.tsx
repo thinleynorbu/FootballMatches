@@ -17,6 +17,7 @@ interface Props {
     initialValue?: Moment | undefined;
     onClear?: () => void;
     label: string;
+    error?: string;
 }
 
 const useStyles = createUseStyles((theme: any) => {
@@ -52,6 +53,11 @@ const useStyles = createUseStyles((theme: any) => {
                 padding: 0
             }
         },
+        error: {
+            fontSize: 12,
+            color: theme.error,
+            fontWeight: 300,
+        }
     };
 });
 
@@ -67,20 +73,20 @@ export const DatePickerComponent = ({
     dropdownClassName,
     initialValue,
     onClear,
-    label
+    label,
+    error
 }: Props) => {
     const classes = useStyles();
 
     const [value, setValue] = useState(initialValue as Moment | null);
 
     const handleChange = (date: Moment | null) => {
-        console.log(date,"date date")
-        if (name === "from") {
-            date?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-        }
-        if (name === "to") {
-            date?.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-        }
+        // if (name === "from") {
+        //     date?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        // }
+        // if (name === "to") {
+        //     date?.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+        // }
         setValue(date);
         if (clear && setClear) {
             setClear(false);
@@ -101,7 +107,6 @@ export const DatePickerComponent = ({
     useEffect(() => {
         setValue(initialValue || null);
     }, [initialValue]);
-
     return (
         <>
             <div
@@ -120,6 +125,8 @@ export const DatePickerComponent = ({
                 dropdownClassName={dropdownClassName}
                 defaultValue={initialValue}
             />
+            {error && <p className={classes.error}>{error}</p>}
+
         </>
     );
 };
