@@ -1,4 +1,4 @@
-import React, { EventHandler, useEffect } from 'react';
+import React, { EventHandler, useEffect, useState } from 'react';
 import { createUseStyles } from "react-jss";
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from '../../atoms/Button';
@@ -49,7 +49,8 @@ const MatchForm = () => {
     const classes = useStyles();
     const params = useParams();
     const history = useHistory()
-    let { id }: any = useParams();
+    const { id }: any = useParams();
+    const [formValue, setFormValue] = useState({});
 
     useEffect(() => {
         if (id) {
@@ -57,9 +58,19 @@ const MatchForm = () => {
         }
     }, [])
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const handleChange = (data: any, date?: any) => {
+        if (date) {
+            setFormValue({ ...formValue, [data]: date })
+            return;
+        }
+        setFormValue({ ...formValue, [data.target.name]: data.target.value })
     }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+    }
+    console.log(formValue, "als;kdfj")
     return (
         <div className={classes.container}>
             <div className={classes.backButton}>
@@ -72,6 +83,8 @@ const MatchForm = () => {
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.row}>
                         <TextField
+                            onChange={handleChange}
+                            name={"homeTeam"}
                             wrapperClass={classes.input}
                             placeholder={"Home Team"}
                             label={"Home Team"}
@@ -80,7 +93,9 @@ const MatchForm = () => {
                         <TextField
                             wrapperClass={classes.input}
                             label={"Score"}
+                            name={"homeScore"}
                             placeholder={"Score"}
+                            onChange={handleChange}
                             type="number"
                             positive
                         />
@@ -89,21 +104,26 @@ const MatchForm = () => {
                         <TextField
                             wrapperClass={classes.input}
                             label={"Away Team"}
+                            name={"awayTeam"}
                             placeholder={"Away Team"}
+                            onChange={handleChange}
                             type="text"
                         />
                         <TextField
                             wrapperClass={classes.input}
                             label={"Score"}
+                            name={"awayScore"}
                             placeholder={"Score"}
                             type="number"
+                            onChange={handleChange}
                             positive
                         />
                     </div>
                     <DatePickerComponent
                         label={"Match Date"}
+                        name={"date"}
                         onClear={() => console.log("clear")}
-                        onChange={() => console.log('falksd')}
+                        onChange={handleChange}
                     />
                     <Button
                         htmlType={"submit"}

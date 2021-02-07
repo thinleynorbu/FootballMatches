@@ -74,6 +74,7 @@ export const DatePickerComponent = ({
     const [value, setValue] = useState(initialValue as Moment | null);
 
     const handleChange = (date: Moment | null) => {
+        console.log(date,"date date")
         if (name === "from") {
             date?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         }
