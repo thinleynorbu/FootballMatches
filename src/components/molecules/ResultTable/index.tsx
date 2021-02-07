@@ -3,17 +3,25 @@ import { Table, Tag, Space } from 'antd';
 import { Button } from '../../atoms/Button';
 import { Router, useHistory } from 'react-router-dom';
 import { createUseStyles } from "react-jss";
+import moment from 'moment';
+
+interface Props {
+    tableData: any[]
+}
 
 
 let useStyles = createUseStyles((theme: any) => {
     return {
         container: {
             width: '100%'
+        },
+        win: {
+            color: theme.textGreen
         }
     };
 });
 
-const ResultTable = () => {
+const ResultTable: React.FC<Props> = ({ tableData }) => {
     const history = useHistory()
     const classes = useStyles()
     const columns = [
@@ -21,17 +29,29 @@ const ResultTable = () => {
             title: 'Home Team',
             dataIndex: 'homeTeam',
             key: 'homeTeam',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string, data: any) => (
+                <span className={data.homeTeam > data.awayTeam ? classes.win : ""}>
+                    {text}{" "}{`(${data.homeScore})`}
+                </span>
+            ),
         },
         {
             title: 'Away Team',
             dataIndex: 'awayTeam',
             key: 'awayTeam',
+            render: (text: string, data: any) => (
+                <span className={data.awayTeam > data.homeTeam ? classes.win : ""}>
+                    { text}{" "}{`(${data.awayScore})`}
+                </span >
+            ),
         },
         {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
+            render: (text: string) => (
+                <>{moment(text).format('DD-MM-YYYY')}</>
+            ),
         },
 
         {
@@ -40,7 +60,7 @@ const ResultTable = () => {
             render: (item: any) => (
                 <Space size="middle">
                     <Button type={"default"} onClick={() => {
-                        history.push(`match-form/${item.key}`)
+                        history.push(`match-form/${item.id}`)
                     }
                     } >Edit Match</Button>
                     <a>Delete</a>
@@ -49,32 +69,11 @@ const ResultTable = () => {
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            homeTeam: 'John Brown',
-            date: 32,
-            awayTeam: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            homeTeam: 'Jim Green',
-            date: 42,
-            awayTeam: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            homeTeam: 'Joe Black',
-            date: 32,
-            awayTeam: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
     return (
         <div className={classes.container}>
-            <Table columns={columns} dataSource={data} />,
+            {tableData.length > 0 &&
+                <Table columns={columns} dataSource={tableData} />
+            }
         </div>
     )
 }

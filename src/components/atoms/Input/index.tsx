@@ -76,8 +76,8 @@ const TextField: React.FC<Props> = props => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.currentTarget;
 
-        if (props.positive && parseInt(value) <= 0) {
-            setTextError("Enter value greater than zero");
+        if (props.positive && parseInt(value) < 0) {
+            setTextError("Enter zero or positive number");
             setTimeout(() => {
                 setTextError("");
             }, 3000);

@@ -122,7 +122,7 @@ const MatchForm = () => {
             }
             if ((item[0] === "homeScore" || item[0] === "awayScore") && (item[1] < 0 || item[1] < 0)) {
                 const name = item[0]
-                errors[name] = "Enter value greater than zero"
+                errors[name] = "Enter zero or positive number"
                 toContinue = false
             }
         })
