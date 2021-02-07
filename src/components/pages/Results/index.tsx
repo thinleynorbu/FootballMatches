@@ -1,25 +1,40 @@
 import React from 'react';
-import { Tabs } from 'antd';
 import ResultTable from '../../molecules/ResultTable';
-import LeagueTable from '../../molecules/LeagueTable';
+import { Button } from '../../atoms/Button';
+import { useHistory } from 'react-router-dom';
+import { createUseStyles } from "react-jss";
+
+
+
+let useStyles = createUseStyles((theme: any) => {
+    return {
+        container: {
+            paddingTop: 30,
+            width: "100%"
+        },
+        addButton: {
+            display: 'flex',
+            marginRight: 20,
+            marginLeft: "auto",
+            marginBottom: 20
+        }
+    };
+});
+
+
 
 
 const Result = () => {
-    const { TabPane } = Tabs;
+    const history = useHistory();
+    const classes = useStyles()
 
     const handleTabChange = () => {
 
     }
     return (
-        <div>
-            <Tabs defaultActiveKey="1">
-                <TabPane tab="Results" key="1">
-                    <ResultTable />
-                </TabPane>
-                <TabPane tab="League" key="2">
-                    <LeagueTable />
-                 </TabPane>
-            </Tabs>
+        <div className={classes.container}>
+            <Button type={"primary"} className={classes.addButton} onClick={() => history.push('match-form')}>Add Match</Button>
+            <ResultTable />
         </div>
     )
 }

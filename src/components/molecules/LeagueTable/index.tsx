@@ -1,5 +1,15 @@
 import React from 'react';
 import { Table, Tag, Space } from 'antd';
+import { createUseStyles } from "react-jss";
+
+
+let useStyles = createUseStyles((theme: any) => {
+    return {
+        container: {
+            width: '100%'
+        }
+    };
+});
 
 const columns = [
     {
@@ -77,8 +87,9 @@ const data = [
 
 
 const LeagueTable = () => {
+    const classes = useStyles()
     return (
-        <div>
+        <div className={classes.container}>
             <Table columns={columns} dataSource={data} />,
         </div>
     )
