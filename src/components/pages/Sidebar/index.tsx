@@ -1,4 +1,4 @@
-import { LockOutlined, TeamOutlined } from "@ant-design/icons";
+import { FolderAddOutlined, CopyOutlined, FundOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React from "react";
 import { createUseStyles } from "react-jss";
@@ -29,7 +29,7 @@ const Sidebar = () => {
     const classes = useStyles();
     const location = useLocation();
     const keys = ["report", "league", "add-team"];
-    
+
     return (
         <Layout.Sider className={classes.sidebar}>
             <Menu
@@ -43,13 +43,13 @@ const Sidebar = () => {
                 ]}
                 selectedKeys={[location.pathname.substring(1)]}
             >
-                <Menu.Item icon={<TeamOutlined />} key="report">
+                <Menu.Item icon={<CopyOutlined />} key="report">
                     <Link to={"/report"}>Report</Link>
                 </Menu.Item>
-                <Menu.Item icon={<LockOutlined />} key="league">
+                <Menu.Item icon={<FundOutlined />} key="league">
                     <Link to={"/league"}>League</Link>
                 </Menu.Item>
-                <Menu.Item icon={<LockOutlined />} key="add-team">
+                <Menu.Item icon={<FolderAddOutlined />} key="add-team">
                     <Link to={"/add-team"}>Add Team</Link>
                 </Menu.Item>
             </Menu>
