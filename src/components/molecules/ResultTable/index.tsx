@@ -24,7 +24,7 @@ let useStyles = createUseStyles((theme: any) => {
 const ResultTable: React.FC<Props> = ({ tableData }) => {
     const history = useHistory()
     const classes = useStyles()
-    const columns = [
+    const columns: any = [
         {
             title: 'Home Team',
             dataIndex: 'homeTeam',
@@ -49,6 +49,10 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
+            sorter: (a: any, b: any) => {
+                return (moment(a.date).diff(moment(b.date)))
+            },
+            sortOrder: "descend",
             render: (text: string) => (
                 <>{moment(text).format('DD-MM-YYYY')}</>
             ),
@@ -67,7 +71,6 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
             ),
         },
     ];
-
     return (
         <div className={classes.container}>
             {tableData.length > 0 &&
