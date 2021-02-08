@@ -57,11 +57,20 @@ const TeamForm = () => {
         setFormValue(data.target.value);
     }
 
-    const validate = () => {
+    const validate = async () => {
         let toContinue = true;
         if (formValue === "") {
             setFormError("Required")
             return false
+        }
+        const data = await API.get('/teams')
+        if (data.data.length > 0) {
+            data.data.forEach((item: any) => {
+                if (item.name.toUpperCase() === formValue.toUpperCase()) {
+                    setFormError("Team already exists")
+                    toContinue = false;
+                }
+            })
         }
         return toContinue;
     }
@@ -69,7 +78,8 @@ const TeamForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            const isValid = validate();
+            const isValid = await validate();
+            console.log(isValid, "idvla")
             if (isValid) {
                 await API.post('/teams', { name: formValue })
                 Alert("Team added", "success")
