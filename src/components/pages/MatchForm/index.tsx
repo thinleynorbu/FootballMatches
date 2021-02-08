@@ -180,6 +180,7 @@ const MatchForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
+            setLoading(true)
             const isValid = validate();
             if (isValid) {
                 if (id) {
@@ -191,7 +192,9 @@ const MatchForm = () => {
                 }
                 history.push('/')
             }
+            setLoading(false)
         } catch (err) {
+            setLoading(false)
             Alert("Error occured", "error")
         }
     }
