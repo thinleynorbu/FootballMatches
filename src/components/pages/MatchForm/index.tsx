@@ -8,6 +8,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { API } from '../../../api';
 import { Alert } from '../../atoms/Alert';
 import moment, { Moment } from 'moment';
+import { SelectComponent } from '../../atoms/Select';
 
 let useStyles = createUseStyles((theme: any) => {
     return {
@@ -25,7 +26,8 @@ let useStyles = createUseStyles((theme: any) => {
             width: "60%"
         },
         input: {
-            marginBottom: 15
+            marginBottom: 15,
+            width: '50%'
         },
         row: {
             display: 'flex',
@@ -45,6 +47,10 @@ let useStyles = createUseStyles((theme: any) => {
             marginRight: 50,
             fontSize: 22,
             marginLeft: 15
+        },
+        select: {
+            width: '50%',
+            marginRight: 20
         }
     };
 });
@@ -55,6 +61,12 @@ interface formValue {
     homeScore: string
     awayScore: string
     date: Moment | null
+}
+
+interface TeamsOptions {
+    label: string;
+    value: string;
+    disable?: boolean
 }
 
 const MatchForm = () => {
@@ -76,6 +88,8 @@ const MatchForm = () => {
         awayScore: "",
         date: ""
     });
+    const [teams, setTeams] = useState([] as TeamsOptions[]);
+    const [allTeams, setAllTeams] = useState([] as TeamsOptions[]);
 
     const fetchMatch = async () => {
         try {
@@ -89,16 +103,50 @@ const MatchForm = () => {
                 date: data.date
             })
         } catch (err) {
-            Alert(err.response.statusText,"error")
+            Alert(err.response.statusText, "error")
             history.push("/")
         }
     }
-
+    console.log(teams, "teams")
+    const fetchTeams = async () => {
+        const res = await API.get('teams');
+        const data = res.data;
+        console.log(data, "data")
+        const teamList: any = []
+        if (data.length > 0) {
+            data.forEach((item: any, index: number) => {
+                teamList[index] = { label: "", value: "" }
+                teamList[index].label = item.name;
+                teamList[index].value = item.id;
+            })
+            setTeams([...teamList])
+        }
+        setAllTeams([...teamList])
+    }
+    console.log(teams, "giving")
     useEffect(() => {
+        fetchTeams()
         if (id) {
             fetchMatch()
         }
     }, [id])
+
+    const updateTeamList = () => {
+        console.log('fklasdjflkasdjf',teams)
+        const updatedTeams: any = []
+        teams.forEach((item, index) => {
+            updatedTeams[index] = item
+            updatedTeams[index].disable = false;
+            if (item.label === formValue.awayTeam || item.label === formValue.homeTeam) {
+                updatedTeams[index].disable = true;
+            }
+        })
+        setTeams([...updatedTeams])
+    }
+
+    useEffect(() => {
+        updateTeamList()
+    }, [formValue])
 
     const handleChange = (data: any, date?: any) => {
         if (date) {
@@ -109,7 +157,10 @@ const MatchForm = () => {
             setFormValue({ ...formValue, [data.target.name]: data.target.value })
         }
     }
-
+    const handleSelectChange = (name: string, value: any) => {
+        setFormValue({ ...formValue, [name]: value })
+    }
+    console.log(formValue,"formvalue")
     const validate = () => {
         const errors: any = {};
         let toContinue = true;
@@ -160,7 +211,7 @@ const MatchForm = () => {
                 </div>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.row}>
-                        <TextField
+                        {/* <TextField
                             onChange={handleChange}
                             name={"homeTeam"}
                             wrapperClass={classes.input}
@@ -169,6 +220,17 @@ const MatchForm = () => {
                             type="text"
                             editValue={formValue.homeTeam}
                             error={formError.homeTeam}
+                        /> */}
+                        <SelectComponent
+                            options={teams}
+                            onChange={handleSelectChange}
+                            name={"homeTeam"}
+                            placeholder={"Home Team"}
+                            label={"Home Team"}
+                            value={formValue.homeTeam}
+                            error={formError.homeTeam}
+                            wrapperClassName={classes.select}
+                            useLabel
                         />
                         <TextField
                             wrapperClass={classes.input}
@@ -183,15 +245,16 @@ const MatchForm = () => {
                         />
                     </div>
                     <div className={classes.row}>
-                        <TextField
-                            wrapperClass={classes.input}
-                            label={"Away Team"}
+                        <SelectComponent
+                            options={teams}
+                            onChange={handleSelectChange}
                             name={"awayTeam"}
                             placeholder={"Away Team"}
-                            onChange={handleChange}
-                            editValue={formValue.awayTeam}
+                            label={"Away Team"}
+                            value={formValue.awayTeam}
                             error={formError.awayTeam}
-                            type="text"
+                            wrapperClassName={classes.select}
+                            useLabel
                         />
                         <TextField
                             wrapperClass={classes.input}

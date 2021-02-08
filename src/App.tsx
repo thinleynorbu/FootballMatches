@@ -11,6 +11,7 @@ import { createUseStyles } from "react-jss";
 import League from './components/pages/League';
 import LeagueTable from './components/molecules/LeagueTable';
 import ResultTable from './components/molecules/ResultTable';
+import TeamForm from './components/pages/TeamForm';
 
 
 const App = () => {
@@ -41,6 +42,14 @@ const App = () => {
               }}
             />
             <Route
+              path="/report"
+              component={() => {
+                return (
+                  <Result />
+                );
+              }}
+            />
+            <Route
               path="/match-form/:id?"
               component={() => {
                 return (
@@ -49,10 +58,10 @@ const App = () => {
               }}
             />
             <Route
-              path="/report"
+              path="/add-team"
               component={() => {
                 return (
-                  <Result />
+                  <TeamForm />
                 );
               }}
             />

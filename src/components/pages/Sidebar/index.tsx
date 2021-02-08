@@ -29,7 +29,7 @@ const Sidebar = () => {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
-    const keys = ["report", "league"];
+    const keys = ["report", "league","add-team"];
 
     return (
         <Layout.Sider className={classes.sidebar}>
@@ -48,6 +48,9 @@ const Sidebar = () => {
                 </Menu.Item>
                 <Menu.Item icon={<LockOutlined />} key="league">
                     <Link to={"/league"}>League</Link>
+                </Menu.Item>
+                <Menu.Item icon={<LockOutlined />} key="add-team">
+                    <Link to={"/add-team"}>Add Team</Link>
                 </Menu.Item>
             </Menu>
         </Layout.Sider>

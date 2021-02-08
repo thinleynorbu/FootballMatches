@@ -1,32 +1,41 @@
 import React from 'react';
-import { Table, Tag, Space } from 'antd';
+import { Table } from 'antd';
 import { createUseStyles } from "react-jss";
+import { LeagueData } from '../../pages/League';
+
+interface Props {
+    leagueData: LeagueData[]
+}
 
 
 let useStyles = createUseStyles((theme: any) => {
     return {
         container: {
-            width: '100%'
+            width: '100%',
         }
     };
 });
 
-const columns = [
+const columns: any = [
     {
         title: 'Position',
         dataIndex: 'position',
         key: 'position',
-        render: (text: string) => <a>{text}</a>,
+        sorter: (a: any, b: any) => {
+            return (a.points - b.points)
+        },
+        sortOrder: "descend",
+        render: (text: string, item: any, index: number) => <span>{index + 1}</span>,
     },
     {
         title: 'Team Name',
-        dataIndex: 'teamName',
-        key: 'teamName',
+        dataIndex: 'name',
+        key: 'name',
     },
     {
         title: 'Total Games',
-        dataIndex: 'totalGames',
-        key: 'totalGames',
+        dataIndex: 'match',
+        key: 'match',
     },
     {
         title: 'Wins',
@@ -35,8 +44,8 @@ const columns = [
     },
     {
         title: 'Draws',
-        dataIndex: 'draws',
-        key: 'draws',
+        dataIndex: 'draw',
+        key: 'draw',
     },
     {
         title: 'Loss',
@@ -47,50 +56,52 @@ const columns = [
     {
         title: 'Points',
         key: 'points',
-        dataIndex:'points'
+        dataIndex: 'points',
+        render: (text: number) =>
+            <span>{text}</span>
     },
 ];
 
 const data = [
     {
         key: '1',
-        totalGames: 'John Brown',
+        match: 'John Brown',
         position: 32,
-        teamName: 'New York No. 1 Lake Park',
+        name: 'New York No. 1 Lake Park',
         wins: 1,
-        loss:2,
-        draws:3,
-        points:23
+        loss: 2,
+        draws: 3,
+        points: 23
     },
     {
         key: '2',
-        totalGames: 'Jim Green',
+        match: 'Jim Green',
         position: 42,
-        teamName: 'London No. 1 Lake Park',
+        name: 'London No. 1 Lake Park',
         wins: 1,
-        loss:2,
-        draws:3,
-        points:23
+        loss: 2,
+        draws: 3,
+        points: 23
 
     },
     {
         key: '3',
-        totalGames: 'Joe Black',
+        match: 'Joe Black',
         position: 32,
-        teamName: 'Sidney No. 1 Lake Park',
+        name: 'Sidney No. 1 Lake Park',
         wins: 1,
-        loss:2,
-        draws:3,
-        points:23
+        loss: 2,
+        draws: 3,
+        points: 23
     },
 ];
 
 
-const LeagueTable = () => {
+const LeagueTable: React.FC<Props> = ({ leagueData }) => {
     const classes = useStyles()
     return (
         <div className={classes.container}>
-            <Table columns={columns} dataSource={data} />,
+            <Table columns={columns} dataSource={leagueData} />,
         </div>
     )
 }
