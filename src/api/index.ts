@@ -4,7 +4,7 @@ import axios from 'axios';
  * axios instance
  */
 let API = axios.create({
-	baseURL: 'http://localhost:8000',
+	baseURL: 'https://football-json.herokuapp.com',
 	headers: { 'Content-Type': 'application/json' },
 });
 
