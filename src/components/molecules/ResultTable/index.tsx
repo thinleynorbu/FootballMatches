@@ -4,9 +4,10 @@ import { Button } from '../../atoms/Button';
 import { useHistory } from 'react-router-dom';
 import { createUseStyles } from "react-jss";
 import moment from 'moment';
+import { ResultData } from "../../pages/Results"
 
 interface Props {
-    tableData: any[]
+    tableData: ResultData[]
 }
 
 

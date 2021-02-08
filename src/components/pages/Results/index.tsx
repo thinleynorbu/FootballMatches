@@ -19,7 +19,7 @@ let useStyles = createUseStyles((theme: any) => {
         }
     };
 });
-interface ResultData {
+export interface ResultData {
     key: string
     homeTeam: string
     date: string
@@ -27,9 +27,6 @@ interface ResultData {
     homeScore: number
     awayScore: number
 }
-
-
-
 
 const Result = () => {
     const history = useHistory();
