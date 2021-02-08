@@ -73,6 +73,7 @@ const MatchForm = () => {
     const classes = useStyles();
     const history = useHistory()
     const { id }: any = useParams();
+    const [loading, setLoading] = useState(false as boolean);
     const [formValue, setFormValue] = useState({
         homeTeam: "",
         awayTeam: "",
@@ -91,6 +92,7 @@ const MatchForm = () => {
 
     const fetchMatch = async () => {
         try {
+            setLoading(true)
             const res = await API.get(`match/${id}`);
             const data = res.data;
             setFormValue({
@@ -100,8 +102,10 @@ const MatchForm = () => {
                 awayScore: data.awayScore,
                 date: data.date
             })
+            setLoading(false)
         } catch (err) {
             Alert(err.response.statusText, "error")
+            setLoading(false)
             history.push("/")
         }
     }
@@ -260,6 +264,7 @@ const MatchForm = () => {
                         error={formError.date}
                     />
                     <Button
+                        loading={loading}
                         htmlType={"submit"}
                         className={classes.submit}
                         type={"primary"}

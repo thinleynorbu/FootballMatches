@@ -4,6 +4,7 @@ import { Button } from '../../atoms/Button';
 import { useHistory } from 'react-router-dom';
 import { createUseStyles } from "react-jss";
 import { API } from '../../../api';
+import { Alert } from '../../atoms/Alert';
 
 let useStyles = createUseStyles((theme: any) => {
     return {
@@ -32,12 +33,20 @@ const Result = () => {
     const history = useHistory();
     const classes = useStyles();
     const [tableData, setTableData] = useState([] as ResultData[])
+    const [loading, setLoading] = useState(false as boolean)
 
     const fetchMatches = async () => {
-        const res = await API.get('match')
-        const data = res.data;
-        if (res.data.length > 0) {
-            setTableData(data)
+        try {
+            setLoading(true)
+            const res = await API.get('match')
+            const data = res.data;
+            if (res.data.length > 0) {
+                setTableData(data)
+            }
+            setLoading(false)
+        } catch (err) {
+            setLoading(false)
+            Alert("Error occured", "error")
         }
     }
 
@@ -48,7 +57,7 @@ const Result = () => {
     return (
         <div className={classes.container}>
             <Button type={"primary"} className={classes.addButton} onClick={() => history.push('match-form')}>Add Match</Button>
-            <ResultTable tableData={tableData} />
+            <ResultTable loading={loading} tableData={tableData} />
         </div>
     )
 }

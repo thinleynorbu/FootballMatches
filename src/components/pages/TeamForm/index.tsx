@@ -52,6 +52,7 @@ const TeamForm = () => {
     const history = useHistory()
     const [formValue, setFormValue] = useState("" as string);
     const [formError, setFormError] = useState("" as string);
+    const [loading, setLoading] = useState(false as boolean);
 
     const handleChange = (data: any) => {
         setFormValue(data.target.value);
@@ -78,6 +79,7 @@ const TeamForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
+            setLoading(true)
             const isValid = await validate();
             console.log(isValid, "idvla")
             if (isValid) {
@@ -85,7 +87,9 @@ const TeamForm = () => {
                 Alert("Team added", "success")
                 history.push('/')
             }
+            setLoading(false)
         } catch (err) {
+            setLoading(false)
             Alert("Error occured", "error")
         }
     }
@@ -112,6 +116,7 @@ const TeamForm = () => {
                     />
 
                     <Button
+                        loading={loading}
                         htmlType={"submit"}
                         className={classes.submit}
                         type={"primary"}

@@ -4,7 +4,8 @@ import { createUseStyles } from "react-jss";
 import { LeagueData } from '../../pages/League';
 
 interface Props {
-    leagueData: LeagueData[]
+    leagueData: LeagueData[];
+    loading?: boolean;
 }
 
 
@@ -62,11 +63,13 @@ const columns: any = [
     },
 ];
 
-const LeagueTable: React.FC<Props> = ({ leagueData }) => {
+const LeagueTable: React.FC<Props> = ({ leagueData, loading }) => {
     const classes = useStyles()
     return (
         <div className={classes.container}>
-            <Table showSorterTooltip={false}
+            <Table
+                loading={loading}
+                showSorterTooltip={false}
                 rowKey={"id"}
                 columns={columns}
                 dataSource={leagueData}

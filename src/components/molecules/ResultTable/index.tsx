@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Space } from 'antd';
 import { Button } from '../../atoms/Button';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +7,8 @@ import moment from 'moment';
 import { ResultData } from "../../pages/Results"
 
 interface Props {
-    tableData: ResultData[]
+    tableData: ResultData[];
+    loading: boolean;
 }
 
 
@@ -27,7 +28,7 @@ let useStyles = createUseStyles((theme: any) => {
     };
 });
 
-const ResultTable: React.FC<Props> = ({ tableData }) => {
+const ResultTable: React.FC<Props> = ({ tableData, loading }) => {
     const history = useHistory()
     const classes = useStyles()
     const columns: any = [
@@ -69,25 +70,26 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
             key: 'action',
             render: (item: any) => (
                 <Space size="middle">
-                    <Button type={"default"} onClick={() => {
-                        history.push(`match-form/${item.id}`)
-                    }
-                    } >Edit Match</Button>
+                    <Button
+                        type={"default"}
+                        onClick={() => {
+                            history.push(`match-form/${item.id}`)
+                        }
+                        } >Edit Match</Button>
                 </Space>
             ),
         },
     ];
     return (
         <div className={classes.container}>
-            {tableData.length > 0 &&
-                <Table
-                    showSorterTooltip={false}
-                    rowKey={"id"}
-                    columns={columns}
-                    dataSource={tableData}
-                    pagination={false}
-                />
-            }
+            <Table
+                loading={loading}
+                showSorterTooltip={false}
+                rowKey={"id"}
+                columns={columns}
+                dataSource={tableData}
+                pagination={false}
+            />
         </div>
     )
 }
