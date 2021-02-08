@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Tag, Space } from 'antd';
+import { Table, Space } from 'antd';
 import { Button } from '../../atoms/Button';
-import { Router, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { createUseStyles } from "react-jss";
 import moment from 'moment';
 
@@ -63,7 +63,6 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
                         history.push(`match-form/${item.id}`)
                     }
                     } >Edit Match</Button>
-                    <a>Delete</a>
                 </Space>
             ),
         },
@@ -72,7 +71,7 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
     return (
         <div className={classes.container}>
             {tableData.length > 0 &&
-                <Table columns={columns} dataSource={tableData} />
+                <Table rowKey={"id"} columns={columns} dataSource={tableData} />
             }
         </div>
     )

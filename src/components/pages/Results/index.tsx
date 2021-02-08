@@ -46,34 +46,11 @@ const Result = () => {
         if (res.data.length > 0) {
             setTableData(data)
         }
-        // console.log(res, "dat")
     }
 
     useEffect(() => {
         fetchMatches()
     }, [])
-    console.log(tableData, "daflkfdsj")
-    const data = [
-        {
-            key: '1',
-            homeTeam: 'John Brown',
-            date: 32,
-            awayTeam: 'New York No. 1 Lake Park',
-        },
-        {
-            key: '2',
-            homeTeam: 'Jim Green',
-            date: 42,
-            awayTeam: 'London No. 1 Lake Park',
-        },
-        {
-            key: '3',
-            homeTeam: 'Joe Black',
-            date: 32,
-            awayTeam: 'Sidney No. 1 Lake Park',
-        },
-    ];
-
 
     return (
         <div className={classes.container}>

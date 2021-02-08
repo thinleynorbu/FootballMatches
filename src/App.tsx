@@ -9,8 +9,6 @@ import { Layout } from 'antd';
 import { Sidebar } from './components/pages/Sidebar';
 import { createUseStyles } from "react-jss";
 import League from './components/pages/League';
-import LeagueTable from './components/molecules/LeagueTable';
-import ResultTable from './components/molecules/ResultTable';
 import TeamForm from './components/pages/TeamForm';
 
 

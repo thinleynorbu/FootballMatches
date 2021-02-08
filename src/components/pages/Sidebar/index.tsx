@@ -1,8 +1,8 @@
 import { LockOutlined, TeamOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
-import React, { useContext } from "react";
+import React from "react";
 import { createUseStyles } from "react-jss";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
 const useStyles = createUseStyles((theme: any) => {
@@ -27,9 +27,8 @@ const useStyles = createUseStyles((theme: any) => {
 
 const Sidebar = () => {
     const classes = useStyles();
-    const history = useHistory();
     const location = useLocation();
-    const keys = ["report", "league","add-team"];
+    const keys = ["report", "league", "add-team"];
 
     return (
         <Layout.Sider className={classes.sidebar}>

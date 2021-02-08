@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUseStyles } from "react-jss";
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button } from '../../atoms/Button';
 import { TextField } from '../../atoms/Input';
 import { ArrowLeftOutlined } from '@ant-design/icons';
@@ -49,9 +49,7 @@ let useStyles = createUseStyles((theme: any) => {
 
 const TeamForm = () => {
     const classes = useStyles();
-    const params = useParams();
     const history = useHistory()
-    const { id }: any = useParams();
     const [formValue, setFormValue] = useState("" as string);
     const [formError, setFormError] = useState("" as string);
 

@@ -62,46 +62,11 @@ const columns: any = [
     },
 ];
 
-const data = [
-    {
-        key: '1',
-        match: 'John Brown',
-        position: 32,
-        name: 'New York No. 1 Lake Park',
-        wins: 1,
-        loss: 2,
-        draws: 3,
-        points: 23
-    },
-    {
-        key: '2',
-        match: 'Jim Green',
-        position: 42,
-        name: 'London No. 1 Lake Park',
-        wins: 1,
-        loss: 2,
-        draws: 3,
-        points: 23
-
-    },
-    {
-        key: '3',
-        match: 'Joe Black',
-        position: 32,
-        name: 'Sidney No. 1 Lake Park',
-        wins: 1,
-        loss: 2,
-        draws: 3,
-        points: 23
-    },
-];
-
-
 const LeagueTable: React.FC<Props> = ({ leagueData }) => {
     const classes = useStyles()
     return (
         <div className={classes.container}>
-            <Table columns={columns} dataSource={leagueData} />,
+            <Table rowKey={"id"} columns={columns} dataSource={leagueData} />,
         </div>
     )
 }

@@ -1,6 +1,5 @@
 import { Input } from "antd";
-import Text from "antd/lib/typography/Text";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { createUseStyles } from "react-jss";
 
 export interface Props {

@@ -20,7 +20,6 @@ const League = () => {
         const teamResponse = await API.get('teams');
         const matches = matchResponse.data;
         const teams = teamResponse.data;
-        console.log(matches, "amat", teams)
         const league = teams;
         league.forEach((item: any) => {
             item.match = 0;
@@ -63,7 +62,6 @@ const League = () => {
             })
         })
         setLeagueData(league)
-        console.log(league, "add mac")
     }
 
     useEffect(() => {

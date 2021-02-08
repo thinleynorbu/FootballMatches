@@ -71,7 +71,6 @@ interface TeamsOptions {
 
 const MatchForm = () => {
     const classes = useStyles();
-    const params = useParams();
     const history = useHistory()
     const { id }: any = useParams();
     const [formValue, setFormValue] = useState({
@@ -89,7 +88,6 @@ const MatchForm = () => {
         date: ""
     });
     const [teams, setTeams] = useState([] as TeamsOptions[]);
-    const [allTeams, setAllTeams] = useState([] as TeamsOptions[]);
 
     const fetchMatch = async () => {
         try {
@@ -107,11 +105,10 @@ const MatchForm = () => {
             history.push("/")
         }
     }
-    console.log(teams, "teams")
+
     const fetchTeams = async () => {
         const res = await API.get('teams');
         const data = res.data;
-        console.log(data, "data")
         const teamList: any = []
         if (data.length > 0) {
             data.forEach((item: any, index: number) => {
@@ -121,9 +118,7 @@ const MatchForm = () => {
             })
             setTeams([...teamList])
         }
-        setAllTeams([...teamList])
     }
-    console.log(teams, "giving")
     useEffect(() => {
         fetchTeams()
         if (id) {
@@ -132,7 +127,6 @@ const MatchForm = () => {
     }, [id])
 
     const updateTeamList = () => {
-        console.log('fklasdjflkasdjf',teams)
         const updatedTeams: any = []
         teams.forEach((item, index) => {
             updatedTeams[index] = item
@@ -160,11 +154,9 @@ const MatchForm = () => {
     const handleSelectChange = (name: string, value: any) => {
         setFormValue({ ...formValue, [name]: value })
     }
-    console.log(formValue,"formvalue")
     const validate = () => {
         const errors: any = {};
         let toContinue = true;
-        const arr = Object.entries(formValue)
         Object.entries(formValue).map(item => {
             if (item[1] === "" || !item[1]) {
                 const name = item[0]
