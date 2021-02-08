@@ -17,6 +17,11 @@ let useStyles = createUseStyles((theme: any) => {
         },
         win: {
             color: theme.textGreen
+        },
+        table: {
+            '& .antd-tooltip': {
+                display: "none"
+            }
         }
     };
 });
@@ -74,7 +79,7 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
     return (
         <div className={classes.container}>
             {tableData.length > 0 &&
-                <Table rowKey={"id"} columns={columns} dataSource={tableData} />
+                <Table showSorterTooltip={false} rowKey={"id"} columns={columns} dataSource={tableData} />
             }
         </div>
     )

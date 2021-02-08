@@ -66,7 +66,7 @@ const LeagueTable: React.FC<Props> = ({ leagueData }) => {
     const classes = useStyles()
     return (
         <div className={classes.container}>
-            <Table rowKey={"id"} columns={columns} dataSource={leagueData} />,
+            <Table showSorterTooltip={false} rowKey={"id"} columns={columns} dataSource={leagueData} />,
         </div>
     )
 }
