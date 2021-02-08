@@ -22,4 +22,8 @@ https://www.npmjs.com/package/json-server
 
 One can view the database data from `db.json` file. 
 
+To run the json-server locally:
+
+`json-server --watch db.json`
+
 
