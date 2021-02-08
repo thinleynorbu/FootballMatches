@@ -203,16 +203,6 @@ const MatchForm = () => {
                 </div>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.row}>
-                        {/* <TextField
-                            onChange={handleChange}
-                            name={"homeTeam"}
-                            wrapperClass={classes.input}
-                            placeholder={"Home Team"}
-                            label={"Home Team"}
-                            type="text"
-                            editValue={formValue.homeTeam}
-                            error={formError.homeTeam}
-                        /> */}
                         <SelectComponent
                             options={teams}
                             onChange={handleSelectChange}
