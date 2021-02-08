@@ -24,6 +24,8 @@ One can view the database data from `db.json` file.
 
 To run the json-server locally:
 
-`json-server --watch db.json`
+- Update the baseURL in api.ts file to `http://localhost:8000`
+
+- Run command to start the server `json-server --watch db.json `
 
 
