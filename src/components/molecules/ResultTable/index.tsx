@@ -37,7 +37,7 @@ const ResultTable: React.FC<Props> = ({ tableData, loading }) => {
             dataIndex: 'homeTeam',
             key: 'homeTeam',
             render: (text: string, data: any) => (
-                <span className={data.homeScore > data.awayScore ? classes.win : ""}>
+                <span className={Number(data.homeScore) > Number(data.awayScore) ? classes.win : ""}>
                     {text}{" "}{`(${data.homeScore})`}
                 </span>
             ),
@@ -47,7 +47,7 @@ const ResultTable: React.FC<Props> = ({ tableData, loading }) => {
             dataIndex: 'awayTeam',
             key: 'awayTeam',
             render: (text: string, data: any) => (
-                <span className={data.awayScore > data.homeScore ? classes.win : ""}>
+                <span className={Number(data.awayScore) > Number(data.homeScore) ? classes.win : ""}>
                     { text}{" "}{`(${data.awayScore})`}
                 </span >
             ),
