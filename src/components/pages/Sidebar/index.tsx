@@ -29,7 +29,7 @@ const Sidebar = () => {
     const classes = useStyles();
     const location = useLocation();
     const keys = ["report", "league", "add-team"];
-
+    
     return (
         <Layout.Sider className={classes.sidebar}>
             <Menu
@@ -41,6 +41,7 @@ const Sidebar = () => {
                         return location.pathname.includes(val);
                     }) || ""
                 ]}
+                selectedKeys={[location.pathname.substring(1)]}
             >
                 <Menu.Item icon={<TeamOutlined />} key="report">
                     <Link to={"/report"}>Report</Link>

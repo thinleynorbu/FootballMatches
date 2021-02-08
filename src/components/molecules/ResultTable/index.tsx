@@ -79,7 +79,13 @@ const ResultTable: React.FC<Props> = ({ tableData }) => {
     return (
         <div className={classes.container}>
             {tableData.length > 0 &&
-                <Table showSorterTooltip={false} rowKey={"id"} columns={columns} dataSource={tableData} />
+                <Table
+                    showSorterTooltip={false}
+                    rowKey={"id"}
+                    columns={columns}
+                    dataSource={tableData}
+                    pagination={false}
+                />
             }
         </div>
     )
